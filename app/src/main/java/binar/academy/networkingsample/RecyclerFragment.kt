@@ -1,14 +1,18 @@
 package binar.academy.networkingsample
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import binar.academy.networkingsample.adapter.MainAdapter
 import binar.academy.networkingsample.databinding.FragmentRecyclerBinding
 import binar.academy.networkingsample.model.GetAllCarResponseItem
+import binar.academy.networkingsample.model.RegisterResponseItem
 import binar.academy.networkingsample.network.ApiClient
+import binar.academy.networkingsample.request.RegisterRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +33,13 @@ class RecyclerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchAllData()
+        binding.apply {
+            addFloatingbutton.setOnClickListener {
+                it.findNavController().navigate(RecyclerFragmentDirections.actionRecyclerFragmentToRegisterFragment())
+            }
+        }
     }
+
 
     private fun fetchAllData(){
         ApiClient.retrofitService.allCar()
@@ -53,6 +63,7 @@ class RecyclerFragment : Fragment() {
                 }
 
             } )
+
     }
 
     private fun showList(data : List<GetAllCarResponseItem>?){
